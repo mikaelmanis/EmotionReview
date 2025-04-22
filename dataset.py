@@ -4,7 +4,7 @@ from transformers import BertTokenizer
 # Load the BERT tokenizer
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 imdbDataset = load_dataset("imdb")
-'''
+
 def clean_text(text):
     return text.strip().replace('\n', ' ')
 
@@ -17,7 +17,7 @@ tokenized_datasets = dataset.map(tokenize_function, batched=True, remove_columns
 # Set the format of the dataset to PyTorch tensors
 tokenized_datasets.set_format("torch", columns=["input_ids", "attention_mask", "label"])
 tokenized_datasets.save_to_disk("imdb_dataset")
-'''
+
 # Load the tokenized dataset
 loaded_dataset = load_from_disk("imdb_dataset")
 train_dataset = loaded_dataset["train"][0]
