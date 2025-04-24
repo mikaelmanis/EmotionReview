@@ -62,9 +62,6 @@ emotionSentiment = {
 }
 
 def classify_emotions(predicted_emotion_ids):
-    """
-    Given a list of predicted emotion ids, classify if overall it's positive, negative or neutral.
-    """
     sentiment_score = sum(
         1 if emotionSentiment.get(i) == "positive"
         else -1 if emotionSentiment.get(i) == "negative"
