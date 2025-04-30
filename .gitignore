@@ -1,2 +1,4 @@
 .venv
 data/processed
+models/emotion
+logs
