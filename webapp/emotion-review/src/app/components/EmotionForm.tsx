@@ -1,23 +1,29 @@
 'use client'
 
 import { useState } from 'react'
+import { predictEmotion } from '../utils/api';
 
 export default function EmotionForm() {
-  const [text, setText] = useState('')
-  const [result, setResult] = useState(null)
+  const [text, setText] = useState("");
+  const [inputText, setInputText] = useState("");
+  const [emotions, setEmotions] = useState<string[]>([]);
+  const [sentiment, setSentiment] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    const response = await fetch('/api/analyze', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text })
-    })
-
-    const data = await response.json()
-    setResult(data)
-  }
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const result = await predictEmotion(text);
+      setInputText(result.text);
+      setEmotions(result.emotions);
+      setSentiment(result.sentiment);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
@@ -32,14 +38,22 @@ export default function EmotionForm() {
             type="submit"
             className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200"
           >
-            Predict
+            {loading ? "Analyzing..." : "Predict emotions"}
           </button>
         </form>
-        {result && (
-        <pre className="w-full max-w-[600px] p-4 border border-gray-300 rounded-lg bg-gray-50 text-sm sm:text-base font-mono whitespace-pre-wrap overflow-x-auto">
-        <h2 className="text-lg sm:text-xl font-bold mb-2">Predicted Emotions:</h2>
-          {JSON.stringify(result, null, 2)}
-        </pre>
+        {emotions.length > 0 && (
+        <div className="mt-6">
+          <h2 className="text-2xl font-bold">For the given text/review:</h2>
+          <ul className="text-lg">{inputText}</ul>
+          <h2 className="text-xl font-semibold">Predicted Emotions:</h2>
+          <ul className="list-disc pl-6">
+            {emotions.map((emo) => (
+              <li key={emo}>{emo}</li>
+            ))}
+          </ul>
+          <h2 className="text-xl font-semibold mt-4">Predicted Sentiment:</h2>
+          <p className="text-lg">{sentiment}</p>
+        </div>
       )}
     </div>
   )
