@@ -1,6 +1,9 @@
 import torch
 from transformers import BertTokenizer, BertForSequenceClassification
 import torch.nn.functional as F
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 from src.models.emotionMapping import emotionID, emotionSentiment, classify_emotions
 
 # Load tokenizer and trained model
@@ -11,9 +14,9 @@ model.eval()
 # Set device (M1 Mac support)
 device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 model.to(device)
+# Prediction functionAQSW
 
-# Prediction function
-def predict_emotions(text, threshold=0.3):
+def predict_emotions(text, threshold=0.2):
     inputs = tokenizer(text, return_tensors="pt", truncation=True, padding=True, max_length=512).to(device)
     with torch.no_grad():
         outputs = model(**inputs)
