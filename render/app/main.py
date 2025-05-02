@@ -4,7 +4,7 @@ from transformers import BertTokenizer, BertForSequenceClassification
 import torch
 import torch.nn.functional as F
 from fastapi.middleware.cors import CORSMiddleware
-from render.app.emotionMapping import emotionID, emotionSentiment
+from emotionMapping import emotionID, emotionSentiment
 
 app = FastAPI()
 
