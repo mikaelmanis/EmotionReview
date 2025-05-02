@@ -6,14 +6,19 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 from render.app.emotionMapping import emotionID, emotionSentiment, classify_emotions
 
+# Load the BERT tokenizer and model
 tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
-model = BertForSequenceClassification.from_pretrained("models/emotion")
+model = BertForSequenceClassification.from_pretrained("MikaelMani/emotion-model")
 model.eval()
 
 # Set device to use GPU for faster results
 device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 model.to(device)
 
+# Use model to predict emotions
+# This function takes a text input and returns the predicted emotions
+# The threshold is used to determine which emotions are considered present
+# The default threshold is set to 0.2, as the model isn't very large and the probabilities are not very high
 def predict_emotions(text, threshold=0.2):
     inputs = tokenizer(text, return_tensors="pt", truncation=True, padding=True, max_length=512).to(device)
     with torch.no_grad():
@@ -52,6 +57,7 @@ if __name__ == "__main__":
         emotions = predict_emotions(text)
         sentiment = map_to_sentiment(emotions)
         
+        # Map GOEmotion IDs to emotion names
         emotionNames = [emotionID.get(emotion, "Unknown") for emotion in emotions]
 
         print(f"\nPredicted Emotions: {emotionNames}")

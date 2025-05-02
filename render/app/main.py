@@ -8,6 +8,7 @@ from app.emotionMapping import emotionID, emotionSentiment
 
 app = FastAPI()
 
+# CORS middleware to allow requests from the frontend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://emotion-review.vercel.app"],
@@ -19,12 +20,17 @@ app.add_middleware(
 # Load model and tokenizer
 device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
+# Loads the model I trained from the Huggingface hub
 model = BertForSequenceClassification.from_pretrained("MikaelMani/emotion-model").to(device)
 model.eval()
 
+# Creates a class to define the input data structure
+# This is used to validate the input data
 class InputText(BaseModel):
     text: str
 
+# Post request to predict sentiment
+# This endpoint receives a text input and returns the predicted emotions and sentiment, allowing for the frontend to display the results
 @app.post("/predict")
 async def predict_sentiment(input: InputText):
     inputs = tokenizer(input.text, return_tensors="pt", truncation=True, padding=True, max_length=512).to(device)

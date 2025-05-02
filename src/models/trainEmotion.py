@@ -3,9 +3,11 @@ from datasets import load_from_disk
 import torch
 from torch.nn import BCEWithLogitsLoss
 
+# Set device to use GPU for faster results if available
 device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 print(f"Using device: {device}")
 
+# Load the BERT tokenizer
 tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
 dataset = load_from_disk("data/processed/goemotions_sentiment") 
 
@@ -19,13 +21,14 @@ def one_hot_encode_labels(example):
 
 dataset = dataset.map(one_hot_encode_labels)
 
-# Initializeing model
+# Initialize model to be used to train
 model = BertForSequenceClassification.from_pretrained(
     "bert-base-uncased", 
     num_labels=28, 
     problem_type="multi_label_classification"
 ).to(device)
 
+# Custom loss function 
 def compute_loss(outputs, labels, **kwargs):
     logits = outputs.logits
     labels = labels.float()

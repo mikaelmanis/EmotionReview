@@ -8,9 +8,15 @@ from render.app.emotionMapping import emotionSentiment
 
 tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
 
+# Loads the GOEmotions dataset
+# The dataset is a multi-label classification dataset with 28 emotions
+# The dataset is used to train the model to predict emotions from text
 def load_goemotions():
     return load_dataset("go_emotions")
 
+# Function to map the labels to sentiment
+# The labels are the emotions present in the text
+# The sentiment is determined by the presence of positive and negative emotions
 def map_labels_to_sentiment(example):
     sentiments = set()
     for label in example["labels"]:
@@ -26,6 +32,8 @@ def map_labels_to_sentiment(example):
     else:
         return "neutral"
 
+# Preprocess the dataset
+# The dataset is preprocessed by mapping the labels to sentiment and tokenizing the text
 def preprocess_goemotions(dataset):
     dataset = dataset.map(lambda x: {**x, "sentiment": map_labels_to_sentiment(x)}, batched=False)
     dataset = dataset.map(lambda x: tokenizer(x["text"], truncation=True, padding="max_length", max_length=512), batched=True)
