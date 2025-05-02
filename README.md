@@ -38,6 +38,6 @@ uvicorn app.main:app --host 0.0.0.0 --port 10000
 
 - [Frontend website](https://emotion-review.vercel.app)
 - [Backend API](https://emotionmodelapi.onrender.com/)
-- [Hugging Face model](https://huggingface.co/MikaelMani/emotion-model)
+- [Hugging Face model](https://huggingface.co/MikaelMani/emotion-model) (Custom model trained by me, uploaded for easier use)
 
 Made By: Mikael Máni Eyfeld Clarke
