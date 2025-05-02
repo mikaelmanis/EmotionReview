@@ -12,9 +12,6 @@ export default function Home() {
         <p className="text-lg sm:text-xl text-center sm:text-left max-w-[600px] font-medium text-foreground/70">
           This is a simple app that can predict your emotions on a text you provide using a trained prediction model.
         </p>
-        <p className="text-lg sm:text-xl text-center sm:text-left max-w-[600px] font-medium text-foreground/70">
-          The model was trained on movie reviews so it works best if the text is in the format of a movie review.
-        </p>
         <h2 className="text-2xl sm:text-3xl font-bold tracking-[-.01em] text-center sm:text-left">
           How to use it
         </h2>

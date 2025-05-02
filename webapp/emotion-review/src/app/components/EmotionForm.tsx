@@ -43,7 +43,7 @@ export default function EmotionForm() {
         </form>
         {emotions.length > 0 && (
         <div className="mt-6">
-          <h2 className="text-2xl font-bold">For the given text/review:</h2>
+          <h2 className="text-2xl font-bold">For the given text</h2>
           <ul className="text-lg">{inputText}</ul>
           <h2 className="text-xl font-semibold">Predicted Emotions:</h2>
           <ul className="list-disc pl-6">

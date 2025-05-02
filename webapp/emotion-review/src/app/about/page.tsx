@@ -8,7 +8,7 @@ export default function About() {
             About
             </h1>
             <p className="text-lg sm:text-xl text-center sm:text-left max-w-[600px] font-medium text-foreground/70">
-            EmotionReview is an AI-powered tool that analyzes the emotional tone and sentiment behind movie reviews. However the model can also be used on a normal text such as from a review about a product or just a simple text that you write. The model was trained on movie reviews so it works best if the text is in the format of a movie review.
+            EmotionReview is an AI-powered tool that analyzes the emotional tone and sentiment behind a given text. However the model can also be used on text such as from a review about a product or a movie review.
             </p>
             <h1 className="text-4xl sm:text-5xl font-bold tracking-[-.01em] text-center sm:text-left">
             What it does
