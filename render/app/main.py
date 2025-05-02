@@ -17,6 +17,7 @@ model.eval()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://emotion-review.vercel.app/"],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
