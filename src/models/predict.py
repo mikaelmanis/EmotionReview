@@ -6,15 +6,13 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 from render.app.emotionMapping import emotionID, emotionSentiment, classify_emotions
 
-# Load tokenizer and trained model
 tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
 model = BertForSequenceClassification.from_pretrained("models/emotion")
 model.eval()
 
-# Set device (M1 Mac support)
+# Set device to use GPU for faster results
 device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 model.to(device)
-# Prediction functionAQSW
 
 def predict_emotions(text, threshold=0.2):
     inputs = tokenizer(text, return_tensors="pt", truncation=True, padding=True, max_length=512).to(device)
@@ -44,9 +42,8 @@ def map_to_sentiment(emotions):
     else:
         return "neutral"
 
-# Main loop
 if __name__ == "__main__":
-    print("🧪 Emotion & Sentiment Model Tester (type 'exit' to quit)")
+    print("Emotion & Sentiment Model Tester (type 'exit' to quit)")
     while True:
         text = input("\nEnter a review: ")
         if text.lower() == "exit":
@@ -55,7 +52,6 @@ if __name__ == "__main__":
         emotions = predict_emotions(text)
         sentiment = map_to_sentiment(emotions)
         
-        # Map emotion IDs to names
         emotionNames = [emotionID.get(emotion, "Unknown") for emotion in emotions]
 
         print(f"\nPredicted Emotions: {emotionNames}")

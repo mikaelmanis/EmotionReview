@@ -10,7 +10,7 @@ def clean_text(text):
 
 dataset = imdbDataset.map(lambda x: {"text": clean_text(x["text"])})
 
-# Tokenize the dataset
+
 def tokenize_function(examples):
     return tokenizer(examples["text"], truncation=True, padding="max_length", max_length=512)
 

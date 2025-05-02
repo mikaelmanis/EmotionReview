@@ -30,6 +30,7 @@ emotionID = {
     27: "neutral"
 }
 
+# Map GOEmotion IDs to sentiment
 emotionSentiment = {
     0: "positive",
     1: "positive",
@@ -60,18 +61,3 @@ emotionSentiment = {
     26: "positive",
     27: "neutral"
 }
-
-def classify_emotions(predicted_emotion_ids):
-    sentiment_score = sum(
-        1 if emotionSentiment.get(i) == "positive"
-        else -1 if emotionSentiment.get(i) == "negative"
-        else 0
-        for i in predicted_emotion_ids
-    )
-
-    if sentiment_score > 0:
-        return "positive"
-    elif sentiment_score < 0:
-        return "negative"
-    else:
-        return "neutral"
