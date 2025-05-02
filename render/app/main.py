@@ -8,12 +8,6 @@ from app.emotionMapping import emotionID, emotionSentiment
 
 app = FastAPI()
 
-# Load model and tokenizer
-device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
-tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
-model = BertForSequenceClassification.from_pretrained("MikaelMani/emotion-model").to(device)
-model.eval()
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://emotion-review.vercel.app"],
@@ -21,6 +15,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Load model and tokenizer
+device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
+model = BertForSequenceClassification.from_pretrained("MikaelMani/emotion-model").to(device)
+model.eval()
 
 class InputText(BaseModel):
     text: str
