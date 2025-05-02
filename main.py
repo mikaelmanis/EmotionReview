@@ -11,7 +11,7 @@ app = FastAPI()
 # Load model and tokenizer
 device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
-model = BertForSequenceClassification.from_pretrained("models/emotion").to(device)
+model = BertForSequenceClassification.from_pretrained("MikaelMani/emotion-model").to(device)
 model.eval()
 
 app.add_middleware(
@@ -31,7 +31,7 @@ async def predict_sentiment(input: InputText):
         logits = model(**inputs).logits
         probs = torch.sigmoid(logits)[0]
 
-    predicted_indices = (probs > 0.2).nonzero(as_tuple=True)[0].tolist()
+    predicted_indices = (probs > 0.1).nonzero(as_tuple=True)[0].tolist()
     emotions = [emotionID[i] for i in predicted_indices]
 
     sentiments = set()
