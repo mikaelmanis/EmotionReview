@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
-from src.models.emotionMapping import emotionID, emotionSentiment, classify_emotions
+from render.app.emotionMapping import emotionID, emotionSentiment, classify_emotions
 
 # Load tokenizer and trained model
 tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")

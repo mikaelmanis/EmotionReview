@@ -3,7 +3,7 @@ from transformers import BertTokenizer
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
-from src.models.emotionMapping import emotionSentiment
+from render.app.emotionMapping import emotionSentiment
 
 
 tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
